@@ -1,6 +1,4 @@
-enum Frecuencia { Unico, Diario, Semanal, Personalizado }
-
-enum Estado { Pendiente, Completado, Omitido }
+import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
 
 abstract class Reminder {
   final String title;
