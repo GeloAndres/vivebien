@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "630171686835",
+    "project_id": "vivebien-ed790",
+    "storage_bucket": "vivebien-ed790.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630171686835:android:7ecbd7009f03171ffbddc6",
+        "android_client_info": {
+          "package_name": "com.example.vivebien"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDapOsK6m3iYuUU2YJckTqabPXfrGHhDrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
