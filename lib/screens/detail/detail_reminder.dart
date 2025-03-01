@@ -138,7 +138,10 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Text('Detalle del Recordatorio')),
+      appBar: AppBar(
+        title: Text('Detalle del Recordatorio'),
+        actions: [ButtomCustomerDelete(id: widget.reminder.id)],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -272,6 +275,28 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ButtomCustomerDelete extends ConsumerWidget {
+  final int id;
+  const ButtomCustomerDelete({super.key, required this.id});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+      child: IconButton(
+        icon: Icon(Icons.delete, size: 32),
+        onPressed: () {
+          ref.read(askReminderProvider.notifier).deleteReminder(id);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Borrado con éxito.')));
+          Navigator.pop(context);
+        },
       ),
     );
   }

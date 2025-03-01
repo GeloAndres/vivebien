@@ -14,4 +14,10 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
     state = [...state, newReminder];
     recordatorioListaTesting.add(newReminder);
   }
+
+  void deleteReminder(int id) {
+    recordatorioListaTesting.removeWhere((reminder) => reminder.id == id);
+    state = state.where((reminder) => reminder.id != id).toList();
+    print('intento de eliminar este id: $id');
+  }
 }
