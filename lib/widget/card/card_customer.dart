@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
+import 'package:vivebien/screens/detail/detail_reminder.dart';
 
 class CardCustomer extends StatefulWidget {
   final List<Reminder> reminders;
@@ -30,7 +31,7 @@ class _CardCustomerState extends State<CardCustomer> {
         child: Row(
           children: [
             Expanded(
-              flex: 1,
+              flex: 2,
               child: IconButton(
                 iconSize: 40,
                 onPressed: () {
@@ -43,56 +44,69 @@ class _CardCustomerState extends State<CardCustomer> {
             ),
             SizedBox(width: 10),
             Expanded(
-              flex: 6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    reminderIndex.title,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueGrey[800],
+              flex: 8,
+              child: GestureDetector(
+                onTap:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DetailReminder()),
                     ),
-                  ),
-                  SizedBox(height: 12),
-                  Row(
+                child: Container(
+                  color: Colors.transparent,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.access_time,
-                        size: 18,
-                        color: Colors.blueGrey[600],
-                      ),
-                      SizedBox(width: 8),
                       Text(
-                        DateFormat(
-                          'dd/MM/yyyy HH:mm',
-                        ).format(reminderIndex.reminderTime),
+                        reminderIndex.title,
                         style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.blueGrey[600],
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueGrey[800],
                         ),
+                      ),
+                      SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            size: 18,
+                            color: Colors.blueGrey[600],
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            DateFormat(
+                              'dd/MM/yyyy HH:mm',
+                            ).format(reminderIndex.reminderTime),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.blueGrey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.repeat,
+                            size: 18,
+                            color: Colors.blueGrey[600],
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            reminderIndex.frecuencia.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.blueGrey[600],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Icon(Icons.repeat, size: 18, color: Colors.blueGrey[600]),
-                      SizedBox(width: 8),
-                      Text(
-                        reminderIndex.frecuencia.toString(),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.blueGrey[600],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-            Expanded(flex: 1, child: Icon(Icons.edit)),
           ],
         ),
       ),
