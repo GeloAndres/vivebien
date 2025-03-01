@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
 
 class CardCustomer extends StatefulWidget {
@@ -64,7 +65,9 @@ class _CardCustomerState extends State<CardCustomer> {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        reminderIndex.reminderTime.toString(),
+                        DateFormat(
+                          'dd/MM/yyyy HH:mm',
+                        ).format(reminderIndex.reminderTime),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.blueGrey[600],
