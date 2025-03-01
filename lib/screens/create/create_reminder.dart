@@ -34,13 +34,17 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
       initialTime: TimeOfDay.now(),
     );
 
-    final DateTime fechaCompleta = await DateTime(
-      pickedDate!.year,
-      pickedDate!.month,
-      pickedDate!.day,
-      pickedTime!.hour,
-      pickedTime!.minute,
-    );
+    DateTime fechaCompleta = fechaSeleccionada;
+
+    if (pickedTime != null) {
+      fechaCompleta = DateTime(
+        pickedDate!.year,
+        pickedDate!.month,
+        pickedDate!.day,
+        pickedTime!.hour,
+        pickedTime!.minute,
+      );
+    }
 
     if (fechaCompleta != null && fechaCompleta != fechaSeleccionada) {
       setState(() {
