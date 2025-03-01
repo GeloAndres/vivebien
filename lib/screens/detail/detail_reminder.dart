@@ -6,21 +6,20 @@ import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
 import 'package:vivebien/infrastructure/entities/reminder_impl.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
 
-class CreateReminder extends ConsumerStatefulWidget {
-  const CreateReminder({super.key});
+class DetailReminder extends ConsumerStatefulWidget {
+  const DetailReminder({super.key});
 
   @override
-  _CreateReminderScreenState createState() => _CreateReminderScreenState();
+  _DetailReminderScreenState createState() => _DetailReminderScreenState();
 }
 
-class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
+class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
   final _tituloController = TextEditingController();
   final _descripcionController = TextEditingController();
   DateTime fechaSeleccionada = DateTime.now();
   Frecuencia _frecuenciaSeleccionada = Frecuencia.Unico;
   Estado _estadoSeleccionado = Estado.Pendiente;
 
-  //control de seleccion de fecha
   Future<void> _seleccionarFechaHora(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -103,7 +102,7 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Text('Crear Recordatorio')),
+      appBar: AppBar(title: Text('Detalle del Recordatorio')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vivebien/screens/create/create_reminder.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
 import 'package:vivebien/widget/card/card_customer.dart';
-
 import './../../testing/db_reminde.dart';
 
 class HomeScreen extends StatelessWidget {
