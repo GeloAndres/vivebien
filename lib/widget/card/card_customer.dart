@@ -49,7 +49,11 @@ class _CardCustomerState extends State<CardCustomer> {
                 onTap:
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DetailReminder()),
+                      MaterialPageRoute(
+                        builder:
+                            (context) =>
+                                DetailReminder(reminder: reminderIndex),
+                      ),
                     ),
                 child: Container(
                   color: Colors.transparent,
