@@ -1,6 +1,6 @@
 import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
 
-abstract class Reminder {
+class Reminder {
   final int id;
   final String title;
   final String description;

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
 import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
-import 'package:vivebien/infrastructure/entities/reminder_impl.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
 
 class DetailReminder extends ConsumerStatefulWidget {
@@ -108,7 +107,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
     print('Frecuencia: $frecuencia');
     print('Estado: $estado');
 
-    final Reminder newReminder = ReminderImpl(
+    final Reminder newReminder = Reminder(
       id: id,
       title: titulo,
       description: descripcion,
