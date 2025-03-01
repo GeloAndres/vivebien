@@ -1,6 +1,7 @@
 import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
 
 abstract class Reminder {
+  final int id;
   final String title;
   final String description;
   final DateTime reminderTime;
@@ -8,6 +9,7 @@ abstract class Reminder {
   final Estado estado;
 
   Reminder({
+    required this.id,
     required this.title,
     required this.description,
     required this.reminderTime,

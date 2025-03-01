@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vivebien/domain/entities/reminder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vivebien/screens/create/create_reminder.dart';
+import 'package:vivebien/screens/provider/reminder.dart';
 import 'package:vivebien/widget/card/card_customer.dart';
 
 import './../../testing/db_reminde.dart';
@@ -19,15 +20,17 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class BodyCustomer extends StatelessWidget {
+class BodyCustomer extends ConsumerWidget {
   const BodyCustomer({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final reminderList = ref.watch(askReminderProvider);
+
     return ListView.builder(
       itemCount: recordatorioListaTesting.length,
       itemBuilder: (context, int index) {
-        return CardCustomer(reminders: recordatorioListaTesting, index: index);
+        return CardCustomer(reminders: reminderList, index: index);
       },
     );
   }

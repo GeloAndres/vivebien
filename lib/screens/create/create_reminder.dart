@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
 import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
+import 'package:vivebien/infrastructure/entities/reminder_impl.dart';
+import 'package:vivebien/screens/provider/reminder.dart';
 
-class CreateReminder extends StatefulWidget {
+class CreateReminder extends ConsumerStatefulWidget {
   const CreateReminder({super.key});
 
   @override
   _CreateReminderScreenState createState() => _CreateReminderScreenState();
 }
 
-class _CreateReminderScreenState extends State<CreateReminder> {
+class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
   final _tituloController = TextEditingController();
   final _descripcionController = TextEditingController();
   DateTime fechaSeleccionada = DateTime.now();
-  TimeOfDay horaSeleccionada = TimeOfDay.now();
   Frecuencia _frecuenciaSeleccionada = Frecuencia.Unico;
   Estado _estadoSeleccionado = Estado.Pendiente;
 
+  //control de seleccion de fecha
   Future<void> _seleccionarFechaHora(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -47,14 +50,12 @@ class _CreateReminderScreenState extends State<CreateReminder> {
   }
 
   void _guardarRecordatorio() {
+    final id = ref.watch(askReminderProvider).length + 1;
     final titulo = _tituloController.text;
     final descripcion = _descripcionController.text;
     final fecha = fechaSeleccionada;
-    final hora = horaSeleccionada;
     final frecuencia = _frecuenciaSeleccionada;
     final estado = _estadoSeleccionado;
-
-    //TODO: crear objeto Recordatorio, llamar a mi provider
 
     if (titulo.isEmpty || descripcion.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -64,15 +65,27 @@ class _CreateReminderScreenState extends State<CreateReminder> {
     }
 
     print('Recordatorio guardado:');
+    print('ID : $id');
     print('Título: $titulo');
     print('Descripción: $descripcion');
-    print('Fecha: ${fechaSeleccionada}');
+    print('Fecha: $fechaSeleccionada');
     print('Frecuencia: $frecuencia');
     print('Estado: $estado');
 
+    final Reminder newReminder = ReminderImpl(
+      id: id,
+      title: titulo,
+      description: descripcion,
+      estado: estado,
+      frecuencia: frecuencia,
+      reminderTime: fecha,
+    );
+
+    //Guardar el reminder en la lista statica
+    ref.read(askReminderProvider.notifier).addReminder(newReminder);
+
     _tituloController.clear();
     _descripcionController.clear();
-    //TODO: agregar clear de fecha, frecuencia, Estado (llamar a mi funcion de creacion)
 
     setState(() {
       fechaSeleccionada = DateTime.now();
@@ -83,6 +96,7 @@ class _CreateReminderScreenState extends State<CreateReminder> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Recordatorio guardado con éxito.')));
+    Navigator.pop(context);
   }
 
   @override
@@ -212,19 +226,5 @@ class _CreateReminderScreenState extends State<CreateReminder> {
         ),
       ),
     );
-  }
-}
-
-//Creacion de la entidad Recordatorio
-
-class CreateNewReminder extends StatelessWidget {
-  final Reminder reminder;
-
-  const CreateNewReminder({super.key, required this.reminder});
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: llamar mi provider para la creacion de mi objeto
-    throw UnimplementedError();
   }
 }
