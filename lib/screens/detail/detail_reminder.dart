@@ -7,7 +7,9 @@ import 'package:vivebien/infrastructure/entities/reminder_impl.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
 
 class DetailReminder extends ConsumerStatefulWidget {
-  const DetailReminder({super.key});
+  final Reminder reminder;
+
+  const DetailReminder({super.key, required this.reminder});
 
   @override
   _DetailReminderScreenState createState() => _DetailReminderScreenState();
@@ -16,9 +18,37 @@ class DetailReminder extends ConsumerStatefulWidget {
 class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
   final _tituloController = TextEditingController();
   final _descripcionController = TextEditingController();
-  DateTime fechaSeleccionada = DateTime.now();
-  Frecuencia _frecuenciaSeleccionada = Frecuencia.Unico;
-  Estado _estadoSeleccionado = Estado.Pendiente;
+  late DateTime fechaSeleccionada;
+  late Frecuencia _frecuenciaSeleccionada;
+  late Estado _estadoSeleccionado;
+
+  bool isEnableButtom = false;
+
+  @override
+  initState() {
+    super.initState();
+    _tituloController.text = widget.reminder.title;
+    _descripcionController.text = widget.reminder.description;
+    fechaSeleccionada = widget.reminder.reminderTime;
+    _frecuenciaSeleccionada = widget.reminder.frecuencia;
+    _estadoSeleccionado = widget.reminder.estado;
+
+    _tituloController.addListener(detectChange);
+    _descripcionController.addListener(detectChange);
+  }
+
+  void detectChange() {
+    if (_tituloController.text != widget.reminder.title ||
+        _descripcionController.text != widget.reminder.description) {
+      setState(() {
+        isEnableButtom = true;
+      });
+    } else {
+      setState(() {
+        isEnableButtom = false;
+      });
+    }
+  }
 
   Future<void> _seleccionarFechaHora(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -33,22 +63,29 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
       initialTime: TimeOfDay.now(),
     );
 
-    final DateTime fechaCompleta = await DateTime(
-      pickedDate!.year,
-      pickedDate!.month,
-      pickedDate!.day,
-      pickedTime!.hour,
-      pickedTime!.minute,
-    );
+    DateTime fechaCompleta = fechaSeleccionada;
+
+    if (pickedTime != null) {
+      fechaCompleta = DateTime(
+        pickedDate!.year,
+        pickedDate!.month,
+        pickedDate!.day,
+        pickedTime!.hour,
+        pickedTime!.minute,
+      );
+    }
 
     if (fechaCompleta != null && fechaCompleta != fechaSeleccionada) {
       setState(() {
         fechaSeleccionada = fechaCompleta;
+        isEnableButtom = true;
       });
     }
   }
 
+  //TODO: cambiarlo, no es guardar, es actualizar
   void _guardarRecordatorio() {
+    //TODO: cambiar los datos a los del reminder
     final id = ref.watch(askReminderProvider).length + 1;
     final titulo = _tituloController.text;
     final descripcion = _descripcionController.text;
@@ -80,8 +117,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
       reminderTime: fecha,
     );
 
-    //Guardar el reminder en la lista statica
-    ref.read(askReminderProvider.notifier).addReminder(newReminder);
+    //Actualizar el reminder en la lista statica o borrarlo
 
     _tituloController.clear();
     _descripcionController.clear();
@@ -181,6 +217,11 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
                     onChanged: (Frecuencia? newValue) {
                       setState(() {
                         _frecuenciaSeleccionada = newValue!;
+                        if (newValue != widget.reminder.frecuencia) {
+                          isEnableButtom = true;
+                        } else {
+                          isEnableButtom = false;
+                        }
                       });
                     },
                     items:
@@ -205,6 +246,11 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
                     onChanged: (Estado? newValue) {
                       setState(() {
                         _estadoSeleccionado = newValue!;
+                        if (newValue != widget.reminder.estado) {
+                          isEnableButtom = true;
+                        } else {
+                          isEnableButtom = false;
+                        }
                       });
                     },
                     items:
@@ -220,8 +266,8 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
               SizedBox(height: 24),
 
               ElevatedButton(
-                onPressed: _guardarRecordatorio,
-                child: Text('Guardar Recordatorio'),
+                onPressed: isEnableButtom ? _guardarRecordatorio : null,
+                child: Text('Guardar Cambios'),
               ),
             ],
           ),
