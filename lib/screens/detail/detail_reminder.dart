@@ -108,7 +108,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
     print('Estado: $estado');
 
     final Reminder newReminder = Reminder(
-      id: id,
+      // id: id,
       title: titulo,
       description: descripcion,
       estado: estado,
@@ -226,13 +226,12 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
                         }
                       });
                     },
-                    items:
-                        Frecuencia.values.map((Frecuencia frecuencia) {
-                          return DropdownMenuItem<Frecuencia>(
-                            value: frecuencia,
-                            child: Text(frecuencia.toString().split('.').last),
-                          );
-                        }).toList(),
+                    items: Frecuencia.values.map((Frecuencia frecuencia) {
+                      return DropdownMenuItem<Frecuencia>(
+                        value: frecuencia,
+                        child: Text(frecuencia.toString().split('.').last),
+                      );
+                    }).toList(),
                   ),
                 ],
               ),
@@ -255,13 +254,12 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
                         }
                       });
                     },
-                    items:
-                        Estado.values.map((Estado estado) {
-                          return DropdownMenuItem<Estado>(
-                            value: estado,
-                            child: Text(estado.toString().split('.').last),
-                          );
-                        }).toList(),
+                    items: Estado.values.map((Estado estado) {
+                      return DropdownMenuItem<Estado>(
+                        value: estado,
+                        child: Text(estado.toString().split('.').last),
+                      );
+                    }).toList(),
                   ),
                 ],
               ),

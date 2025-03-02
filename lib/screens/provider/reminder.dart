@@ -20,4 +20,8 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
     state = state.where((reminder) => reminder.id != id).toList();
     print('intento de eliminar este id: $id');
   }
+
+  void editReminder(Reminder reminder) {
+    //TODO: terminar edicion y otras funciones cuando tenga mis bases de datos listas
+  }
 }
