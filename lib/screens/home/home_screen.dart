@@ -27,7 +27,7 @@ class BodyCustomer extends ConsumerWidget {
     final reminderList = ref.watch(askReminderProvider);
 
     return ListView.builder(
-      itemCount: recordatorioListaTesting.length,
+      itemCount: reminderList.length,
       itemBuilder: (context, int index) {
         return CardCustomer(reminders: reminderList, index: index);
       },

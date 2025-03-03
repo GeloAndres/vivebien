@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
 import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
+import 'package:vivebien/screens/provider/localStorageProvider.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
 
 class CreateReminder extends ConsumerStatefulWidget {

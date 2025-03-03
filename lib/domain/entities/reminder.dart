@@ -21,5 +21,6 @@ class Reminder {
     required this.reminderTime,
     required this.frecuencia,
     required this.estado,
+    this.id = Isar.autoIncrement,
   });
 }

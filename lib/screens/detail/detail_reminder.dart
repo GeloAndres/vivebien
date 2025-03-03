@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:isar/isar.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
 import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
@@ -15,6 +16,7 @@ class DetailReminder extends ConsumerStatefulWidget {
 }
 
 class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
+  late final Id _id;
   final _tituloController = TextEditingController();
   final _descripcionController = TextEditingController();
   late DateTime fechaSeleccionada;
@@ -26,6 +28,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
   @override
   initState() {
     super.initState();
+    _id = widget.reminder.id;
     _tituloController.text = widget.reminder.title;
     _descripcionController.text = widget.reminder.description;
     fechaSeleccionada = widget.reminder.reminderTime;
@@ -82,10 +85,8 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
     }
   }
 
-  //TODO: cambiarlo, no es guardar, es actualizar
   void _guardarRecordatorio() {
-    //TODO: cambiar los datos a los del reminder
-    final id = ref.watch(askReminderProvider).length + 1;
+    final id = _id;
     final titulo = _tituloController.text;
     final descripcion = _descripcionController.text;
     final fecha = fechaSeleccionada;
@@ -108,7 +109,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
     print('Estado: $estado');
 
     final Reminder newReminder = Reminder(
-      // id: id,
+      id: id,
       title: titulo,
       description: descripcion,
       estado: estado,
@@ -116,7 +117,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
       reminderTime: fecha,
     );
 
-    //Actualizar el reminder en la lista statica o borrarlo
+    ref.read(askReminderProvider.notifier).editReminder(newReminder);
 
     _tituloController.clear();
     _descripcionController.clear();
@@ -129,7 +130,8 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('Recordatorio guardado con éxito.')));
+    ).showSnackBar(
+        SnackBar(content: Text('Recordatorio Actualizado con éxito.')));
     Navigator.pop(context);
   }
 

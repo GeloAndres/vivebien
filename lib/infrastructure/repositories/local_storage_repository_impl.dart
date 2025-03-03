@@ -5,10 +5,10 @@ import 'package:vivebien/domain/repositories/local_storage_repository.dart';
 class LocalStorageRepositoryImpl extends LocalStorageRepository {
   final LocalStorageDatasource datasource;
 
-  LocalStorageRepositoryImpl(this.datasource);
+  LocalStorageRepositoryImpl({required this.datasource});
 
   @override
-  Future<void> createNewReminder(Reminder reminder) {
+  Future<bool> createNewReminder(Reminder reminder) {
     return datasource.createNewReminder(reminder);
   }
 
