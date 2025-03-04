@@ -22,4 +22,9 @@ class CloudStorageRepositoryImpl extends CloudStorageRepository {
   Future<bool> deleteReminder(String id) {
     return cloudDb.deleteReminder(id);
   }
+
+  @override
+  Future<bool> updateReminder(Reminder reminder) {
+    return cloudDb.updateReminder(reminder);
+  }
 }

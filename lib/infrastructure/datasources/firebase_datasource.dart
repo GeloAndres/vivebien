@@ -33,4 +33,15 @@ class FirebaseDatasource extends CloudStorageDatasource {
       return false;
     }
   }
+
+  Future<bool> updateReminder(Reminder reminder) async {
+    try {
+      await collectionRef.doc(reminder.id.toString()).update(reminder.toJson());
+      print('se logro Actualizar reminder en firestore');
+      return true;
+    } catch (e) {
+      print('Error al actualizar el reminder en Firestore: $e');
+      return false;
+    }
+  }
 }

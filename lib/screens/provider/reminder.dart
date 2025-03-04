@@ -30,20 +30,30 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
   }
 
   Future<void> createReminder(Reminder newReminder) async {
-    await localDatasource.createNewReminder(newReminder);
-    _loadReminders();
-    await cloudDatasource.createReminder(newReminder);
+    final bool create = await localDatasource.createNewReminder(newReminder);
+    if (create) {
+      _loadReminders();
+      //sincronizar
+      await cloudDatasource.createReminder(newReminder);
+    }
   }
 
   Future<void> deleteReminder(int id) async {
-    await localDatasource.deleteReminder(id);
-    _loadReminders();
-    await cloudDatasource.deleteReminder(id.toString());
+    final bool delete = await localDatasource.deleteReminder(id);
+    if (delete) {
+      _loadReminders();
+      //sincronizar
+      await cloudDatasource.deleteReminder(id.toString());
+    }
   }
 
   Future<void> editReminder(Reminder reminder) async {
     final bool update = await localDatasource.updateReminder(reminder);
-    if (update) print('Recordatorio, actualizado exitosamente');
-    _loadReminders();
+    if (update) {
+      print('Recordatorio, actualizado exitosamente');
+      //sincronizar
+      await cloudDatasource.updateReminder(reminder);
+      _loadReminders();
+    }
   }
 }

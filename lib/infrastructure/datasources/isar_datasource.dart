@@ -31,7 +31,6 @@ class IsarDatasource extends LocalStorageDatasource {
       });
 
       //Sincroniza con CloudDatasource
-
       return true;
     } catch (e) {
       print('Error al crear el reminder: $e');
@@ -72,8 +71,6 @@ class IsarDatasource extends LocalStorageDatasource {
 
   @override
   Future<bool> updateReminder(Reminder reminder) {
-    //Sincroniza con CloudDatasource
-
     return createNewReminder(reminder);
   }
 }
