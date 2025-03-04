@@ -29,17 +29,16 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
     state = reminders;
   }
 
-  Future<void> addReminder(Reminder newReminder) async {
+  Future<void> createReminder(Reminder newReminder) async {
     await localDatasource.createNewReminder(newReminder);
-    await cloudDatasource.createReminder(newReminder);
     _loadReminders();
+    await cloudDatasource.createReminder(newReminder);
   }
 
   Future<void> deleteReminder(int id) async {
     await localDatasource.deleteReminder(id);
-    await cloudDatasource.deleteReminder(id.toString());
-
     _loadReminders();
+    await cloudDatasource.deleteReminder(id.toString());
   }
 
   Future<void> editReminder(Reminder reminder) async {

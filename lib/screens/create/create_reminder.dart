@@ -20,7 +20,6 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
   Frecuencia _frecuenciaSeleccionada = Frecuencia.Unico;
   Estado _estadoSeleccionado = Estado.Pendiente;
 
-  //control de seleccion de fecha
   Future<void> _seleccionarFechaHora(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -54,7 +53,6 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
   }
 
   void _guardarRecordatorio() {
-    final id = ref.watch(askReminderProvider).length + 1;
     final titulo = _tituloController.text;
     final descripcion = _descripcionController.text;
     final fecha = fechaSeleccionada;
@@ -69,7 +67,6 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
     }
 
     print('Recordatorio guardado:');
-    print('ID : $id');
     print('Título: $titulo');
     print('Descripción: $descripcion');
     print('Fecha: $fechaSeleccionada');
@@ -77,7 +74,6 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
     print('Estado: $estado');
 
     final Reminder newReminder = Reminder(
-      // id: id,
       title: titulo,
       description: descripcion,
       estado: estado,
@@ -85,8 +81,7 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
       reminderTime: fecha,
     );
 
-    //Guardar el reminder en la lista statica
-    ref.read(askReminderProvider.notifier).addReminder(newReminder);
+    ref.read(askReminderProvider.notifier).createReminder(newReminder);
 
     _tituloController.clear();
     _descripcionController.clear();
