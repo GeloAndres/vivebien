@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vivebien/domain/datasources/local_storage_datasource.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
+import 'package:vivebien/service/local_notifier/notifier_service.dart';
 
 class IsarDatasource extends LocalStorageDatasource {
   late Future<Isar> db;
@@ -23,6 +24,7 @@ class IsarDatasource extends LocalStorageDatasource {
   @override
   Future<bool> createNewReminder(Reminder reminder) async {
     final isar = await db;
+    final NotifierService notifierService = NotifierService();
 
     try {
       //creacion Reminder en LocalDatasource
@@ -30,7 +32,9 @@ class IsarDatasource extends LocalStorageDatasource {
         await isar.reminders.put(reminder);
       });
 
-      //Sincroniza con CloudDatasource
+      //crear notification push
+      notifierService.scheduleNotification(reminder);
+
       return true;
     } catch (e) {
       print('Error al crear el reminder: $e');

@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:vivebien/domain/entities/reminder.dart';
 
 class NotifierService {
   static final NotifierService _instance = NotifierService._internal();
@@ -46,12 +47,11 @@ class NotifierService {
     const NotificationDetails platformChannelSpredifies =
         NotificationDetails(android: androidNotificationDetails);
 
-    await flutterLocalNotificationsPlugin.show(0, 'title of notification',
-        'Description of notification', platformChannelSpredifies,
-        payload: 'instant');
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, platformChannelSpredifies, payload: 'instant');
   }
 
-  Future<void> scheduleNotification(DateTime scheduledDateTime) async {
+  Future<void> scheduleNotification(Reminder reminder) async {
     const AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails('instant_channel', 'instant Notifications',
             channelDescription: 'Channel for instant notification',
@@ -63,9 +63,9 @@ class NotifierService {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         1,
-        'title of notification',
-        'Description of notification',
-        tz.TZDateTime.from(scheduledDateTime, tz.local),
+        reminder.title,
+        reminder.description,
+        tz.TZDateTime.from(reminder.reminderTime, tz.local),
         platformChannelSpredifies,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
