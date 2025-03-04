@@ -33,7 +33,7 @@ class IsarDatasource extends LocalStorageDatasource {
       });
 
       //crear notification push
-      notifierService.scheduleNotification(reminder);
+      notifierService.generateReminderNotification(reminder);
 
       return true;
     } catch (e) {

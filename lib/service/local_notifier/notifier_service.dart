@@ -1,5 +1,4 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:vivebien/domain/entities/reminder.dart';
 
 class NotifierService {
@@ -27,14 +26,19 @@ class NotifierService {
       iOS: initializationSettingsDarwin,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      // onDidReceiveBackgroundNotificationResponse: _onNotificationTap,
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: onNotificationTap,
+        onDidReceiveBackgroundNotificationResponse: onNotificationTap);
   }
 
-  void _onNotificationTap(NotificationResponse response) {
-    print('notification clicked: ${response.payload}}');
+  //control de notificaciones con tiempo
+  void generateReminderNotification(Reminder reminder) {
+    final now = DateTime.now();
+    final delay = reminder.reminderTime.difference(now);
+
+    Future.delayed(delay, () {
+      reminderNotification(reminder);
+    });
   }
 
   Future<void> showInstantNotification(String title, String body) async {
@@ -51,25 +55,41 @@ class NotifierService {
         .show(0, title, body, platformChannelSpredifies, payload: 'instant');
   }
 
-  Future<void> scheduleNotification(Reminder reminder) async {
+  Future<void> reminderNotification(Reminder reminder) async {
     const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('instant_channel', 'instant Notifications',
-            channelDescription: 'Channel for instant notification',
-            importance: Importance.max,
-            priority: Priority.high);
+        AndroidNotificationDetails(
+      'instant_channel',
+      'instant Notifications',
+      channelDescription: 'Channel for instant notification',
+      importance: Importance.max,
+      priority: Priority.high,
+      actions: <AndroidNotificationAction>[
+        AndroidNotificationAction('completada', 'Completada',
+            showsUserInterface: true),
+        AndroidNotificationAction('aplazar', 'Aplazar',
+            showsUserInterface: true),
+      ],
+    );
 
     const NotificationDetails platformChannelSpredifies =
         NotificationDetails(android: androidNotificationDetails);
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        1,
-        reminder.title,
-        reminder.description,
-        tz.TZDateTime.from(reminder.reminderTime, tz.local),
-        platformChannelSpredifies,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        payload: 'scheduled',
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
+    await flutterLocalNotificationsPlugin.show(
+        1, reminder.title, reminder.description, platformChannelSpredifies,
+        payload: 'scheduled');
+  }
+}
+
+void onNotificationTap(NotificationResponse notificationResponse) {
+  switch (notificationResponse.actionId) {
+    case 'completada':
+      print('presionaste el botón Completada');
+      break;
+    case 'aplazar':
+      print('presionaste el botón Aplazar');
+      break;
+    default:
+      print('presionaste la notificación');
+      break;
   }
 }
