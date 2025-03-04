@@ -25,9 +25,12 @@ class IsarDatasource extends LocalStorageDatasource {
     final isar = await db;
 
     try {
+      //creacion Reminder en LocalDatasource
       await isar.writeTxn(() async {
         await isar.reminders.put(reminder);
       });
+
+      //Sincroniza con CloudDatasource
 
       return true;
     } catch (e) {
@@ -46,6 +49,8 @@ class IsarDatasource extends LocalStorageDatasource {
       });
       print(
           '_____IsarDatasource_____ Se elemino correctamente el recordatorio $id');
+      //Sincroniza con CloudDatasource
+
       return true;
     } catch (e) {
       print('Error al eliminar el reminder: $e');
@@ -67,6 +72,8 @@ class IsarDatasource extends LocalStorageDatasource {
 
   @override
   Future<bool> updateReminder(Reminder reminder) {
+    //Sincroniza con CloudDatasource
+
     return createNewReminder(reminder);
   }
 }

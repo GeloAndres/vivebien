@@ -23,4 +23,15 @@ class Reminder {
     required this.estado,
     this.id = Isar.autoIncrement,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'reminderTime': reminderTime.toIso8601String(),
+      'frecuencia': frecuencia.toString(),
+      'estado': estado.toString(),
+    };
+  }
 }
