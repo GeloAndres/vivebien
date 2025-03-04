@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vivebien/screens/create/create_reminder.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
+import 'package:vivebien/service/local_notifier/notifier_service.dart';
 import 'package:vivebien/widget/card/card_customer.dart';
-import './../../testing/db_reminde.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

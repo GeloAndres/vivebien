@@ -4,6 +4,7 @@ import 'package:vivebien/domain/repositories/cloud_storage_repository.dart';
 import 'package:vivebien/domain/repositories/local_storage_repository.dart';
 import 'package:vivebien/screens/provider/cloudStorageProvider.dart';
 import 'package:vivebien/screens/provider/localStorageProvider.dart';
+import 'package:vivebien/service/local_notifier/notifier_service.dart';
 
 final askReminderProvider =
     StateNotifierProvider<ReminderProvider, List<Reminder>>((ref) {
