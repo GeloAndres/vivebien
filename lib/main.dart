@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vivebien/login/login_screen.dart';
 import 'package:vivebien/permission/premission.dart';
-import 'package:vivebien/screens/home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
 import 'package:vivebien/service/local_notifier/notifier_service.dart';
@@ -46,6 +46,6 @@ class MainAppState extends ConsumerState<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomeScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
   }
 }
