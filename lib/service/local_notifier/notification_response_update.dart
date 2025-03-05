@@ -1,6 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vivebien/screens/provider/reminder.dart';
 
-void onNotificationTap(NotificationResponse notificationResponse) {
+void onNotificationTap(NotificationResponse notificationResponse) async {
   //Id de mi reminder
   final reminderId = int.tryParse(notificationResponse.payload ?? '');
 
@@ -8,6 +10,12 @@ void onNotificationTap(NotificationResponse notificationResponse) {
   switch (notificationResponse.actionId) {
     case 'completada':
       if (reminderId != null) {
+        final container = ProviderContainer();
+        final askReminderProviderExpress =
+            container.read(askReminderProvider.notifier);
+
+        await askReminderProviderExpress.completStateReminder(reminderId);
+
         print('recordatorio completado Id: $reminderId');
       } else {
         print('recordatorio completado pero no llega el Id');

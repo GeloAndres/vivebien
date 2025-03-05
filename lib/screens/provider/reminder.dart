@@ -22,27 +22,28 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
   ReminderProvider(
       {required this.localDatasource, required this.cloudDatasource})
       : super([]) {
-    _loadReminders();
+    loadReminders();
   }
 
-  Future<void> _loadReminders() async {
+  Future<void> loadReminders() async {
     final reminders = await localDatasource.getReminder();
+    Future.delayed(Duration(milliseconds: 500));
     state = reminders;
   }
 
   Future<void> createReminder(Reminder newReminder) async {
     final bool create = await localDatasource.createNewReminder(newReminder);
     if (create) {
-      _loadReminders();
       //sincronizar
       await cloudDatasource.createReminder(newReminder);
+      loadReminders();
     }
   }
 
   Future<void> deleteReminder(int id) async {
     final bool delete = await localDatasource.deleteReminder(id);
     if (delete) {
-      _loadReminders();
+      loadReminders();
       //sincronizar
       await cloudDatasource.deleteReminder(id.toString());
     }
@@ -54,7 +55,7 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
       print('Recordatorio, actualizado exitosamente');
       //sincronizar
       await cloudDatasource.updateReminder(reminder);
-      _loadReminders();
+      loadReminders();
     }
   }
 
@@ -109,7 +110,7 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
       print('Error al cambiar el estado del Reminder: $e');
       return false; // Indica que la operación falló
     } finally {
-      _loadReminders(); // Siempre recarga los Reminders
+      loadReminders(); // Siempre recarga los Reminders
     }
   }
 
