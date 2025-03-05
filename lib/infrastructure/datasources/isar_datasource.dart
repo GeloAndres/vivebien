@@ -32,7 +32,9 @@ class IsarDatasource extends LocalStorageDatasource {
         await isar.reminders.put(reminder);
       });
 
-      notifierService.generateReminderNotification(reminder);
+      if (reminder.reminderTime.isAfter(DateTime.now())) {
+        notifierService.generateReminderNotification(reminder);
+      }
 
       return true;
     } catch (e) {
