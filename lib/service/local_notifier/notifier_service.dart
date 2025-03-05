@@ -67,7 +67,7 @@ class NotifierService {
       actions: <AndroidNotificationAction>[
         AndroidNotificationAction('completada', 'Completada',
             showsUserInterface: true),
-        AndroidNotificationAction('aplazar', 'Aplazar',
+        AndroidNotificationAction('aplazar', 'Aplazar 3 minutos',
             showsUserInterface: true),
       ],
     );

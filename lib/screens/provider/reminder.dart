@@ -27,7 +27,7 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
 
   Future<void> loadReminders() async {
     final reminders = await localDatasource.getReminder();
-    Future.delayed(Duration(milliseconds: 500));
+    Future.delayed(Duration(milliseconds: 900));
     state = reminders;
   }
 
@@ -94,23 +94,30 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
 
   Future<bool> postponeReminder(int id) async {
     try {
-      final Reminder reminderUpState = await reminderById(id);
+      final Reminder reminder = await reminderById(id);
 
-      if (reminderUpState == null) {
+      if (reminder == null) {
         print('Reminder con ID $id no encontrado');
         return false;
       }
-      //Determinar completada el recordatorio
+      Reminder newReminder = Reminder(
+        id: reminder.id,
+        title: reminder.title,
+        description: reminder.description,
+        reminderTime: reminder.reminderTime.add(Duration(minutes: 3)),
+        frecuencia: reminder.frecuencia,
+        estado: reminder.estado,
+      );
 
-      // reminderUpState. = Estado.Completado;
-      await editReminder(reminderUpState);
-      print('Cambio el estado a completado: ${reminderUpState.title}');
-      return true; // Indica que la operación fue exitosa
+      await editReminder(newReminder);
+      print(
+          'Se a aplazado el recordatorio: ${reminder.title}, de ${reminder.reminderTime} a ${newReminder.reminderTime}}');
+      return true;
     } catch (e) {
       print('Error al cambiar el estado del Reminder: $e');
-      return false; // Indica que la operación falló
+      return false;
     } finally {
-      loadReminders(); // Siempre recarga los Reminders
+      loadReminders();
     }
   }
 

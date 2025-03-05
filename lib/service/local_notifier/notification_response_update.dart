@@ -25,7 +25,13 @@ void onNotificationTap(NotificationResponse notificationResponse) async {
       break;
     case 'aplazar':
       if (reminderId != null) {
-        print('Aplazamos el recordatorio Id: $reminderId');
+        final container = ProviderContainer();
+        final askReminderProviderExpress =
+            container.read(askReminderProvider.notifier);
+
+        await askReminderProviderExpress.postponeReminder(reminderId);
+
+        print('recordatorio aplazado 2 minutos Id: $reminderId');
       } else {
         print('No tenemos la id del recordatorio para aplazarlo');
       }
