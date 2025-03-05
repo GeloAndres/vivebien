@@ -32,7 +32,6 @@ class IsarDatasource extends LocalStorageDatasource {
         await isar.reminders.put(reminder);
       });
 
-      //crear notification push
       notifierService.generateReminderNotification(reminder);
 
       return true;
@@ -76,5 +75,16 @@ class IsarDatasource extends LocalStorageDatasource {
   @override
   Future<bool> updateReminder(Reminder reminder) {
     return createNewReminder(reminder);
+  }
+
+  Future<Reminder?> getReminderById(int id) async {
+    final isar = await db;
+    try {
+      final reminder = await isar.reminders.get(id);
+      return reminder;
+    } catch (e) {
+      print('Error al obtener el Reminder por ID: $e');
+      return null;
+    }
   }
 }

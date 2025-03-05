@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
+import 'package:vivebien/service/local_notifier/notification_response_update.dart';
 
 class NotifierService {
   static final NotifierService _instance = NotifierService._internal();
@@ -74,22 +75,8 @@ class NotifierService {
     const NotificationDetails platformChannelSpredifies =
         NotificationDetails(android: androidNotificationDetails);
 
-    await flutterLocalNotificationsPlugin.show(
-        1, reminder.title, reminder.description, platformChannelSpredifies,
-        payload: 'scheduled');
-  }
-}
-
-void onNotificationTap(NotificationResponse notificationResponse) {
-  switch (notificationResponse.actionId) {
-    case 'completada':
-      print('presionaste el botón Completada');
-      break;
-    case 'aplazar':
-      print('presionaste el botón Aplazar');
-      break;
-    default:
-      print('presionaste la notificación');
-      break;
+    await flutterLocalNotificationsPlugin.show(reminder.id, reminder.title,
+        reminder.description, platformChannelSpredifies,
+        payload: reminder.id.toString());
   }
 }

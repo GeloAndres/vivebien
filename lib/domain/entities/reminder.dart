@@ -11,9 +11,9 @@ class Reminder {
   final DateTime reminderTime;
 
   @enumerated
-  final Frecuencia frecuencia;
+  late final Frecuencia frecuencia;
   @enumerated
-  final Estado estado;
+  late final Estado estado;
 
   Reminder({
     required this.title,

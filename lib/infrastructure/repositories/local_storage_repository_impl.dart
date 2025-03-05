@@ -26,4 +26,9 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   Future<bool> updateReminder(Reminder reminder) {
     return datasource.updateReminder(reminder);
   }
+
+  @override
+  Future<Reminder?> getReminderById(int id) {
+    return datasource.getReminderById(id);
+  }
 }
