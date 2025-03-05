@@ -31,4 +31,9 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   Future<Reminder?> getReminderById(int id) {
     return datasource.getReminderById(id);
   }
+
+  @override
+  Stream<void> watchReminders() {
+    return datasource.watchReminders();
+  }
 }

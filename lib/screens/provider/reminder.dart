@@ -23,6 +23,7 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
       {required this.localDatasource, required this.cloudDatasource})
       : super([]) {
     loadReminders();
+    _watchReminders();
   }
 
   Future<void> loadReminders() async {
@@ -31,19 +32,23 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
     state = reminders;
   }
 
+  void _watchReminders() {
+    localDatasource.watchReminders().listen((_) {
+      loadReminders();
+    });
+  }
+
   Future<void> createReminder(Reminder newReminder) async {
     final bool create = await localDatasource.createNewReminder(newReminder);
     if (create) {
       //sincronizar
       await cloudDatasource.createReminder(newReminder);
-      loadReminders();
     }
   }
 
   Future<void> deleteReminder(int id) async {
     final bool delete = await localDatasource.deleteReminder(id);
     if (delete) {
-      loadReminders();
       //sincronizar
       await cloudDatasource.deleteReminder(id.toString());
     }
@@ -55,7 +60,6 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
       print('Recordatorio, actualizado exitosamente');
       //sincronizar
       await cloudDatasource.updateReminder(reminder);
-      loadReminders();
     }
   }
 
@@ -106,7 +110,7 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
         description: reminder.description,
         reminderTime: reminder.reminderTime.add(Duration(minutes: 3)),
         frecuencia: reminder.frecuencia,
-        estado: reminder.estado,
+        estado: Estado.Omitido,
       );
 
       await editReminder(newReminder);

@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
 import 'package:vivebien/service/local_notifier/notification_response_update.dart';
 
@@ -10,7 +11,7 @@ class NotifierService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future<void> initialize() async {
+  Future<void> initialize(WidgetRef ref) async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -29,7 +30,8 @@ class NotifierService {
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: onNotificationTap,
-        onDidReceiveBackgroundNotificationResponse: onNotificationTap);
+        onDidReceiveBackgroundNotificationResponse:
+            onNotificationTapBackground);
   }
 
   //control de notificaciones con tiempo

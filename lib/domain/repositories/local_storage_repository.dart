@@ -6,4 +6,5 @@ abstract class LocalStorageRepository {
   Future<bool> updateReminder(Reminder reminder);
   Future<List<Reminder>> getReminder();
   Future<Reminder?> getReminderById(int id);
+  Stream<void> watchReminders();
 }

@@ -12,11 +12,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
   await requestNotificationPermissions();
-  await NotifierService().initialize();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ProviderScope(child: MainApp()));
+  runApp(
+    ProviderScope(
+      child: Consumer(builder: (context, ref, _) {
+        NotifierService().initialize(ref);
+        return MainApp();
+      }),
+    ),
+  );
 }
 
 class MainApp extends ConsumerStatefulWidget {
