@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vivebien/screens/create/create_reminder.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
-import 'package:vivebien/service/local_notifier/notifier_service.dart';
 import 'package:vivebien/widget/card/card_customer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -26,16 +25,33 @@ class BodyCustomer extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final reminderList = ref.watch(askReminderProvider);
 
-    return ListView.builder(
-      itemCount: reminderList.length,
-      itemBuilder: (context, int index) {
-        return CardCustomer(
-          reminders: reminderList,
-          index: index,
-          ref: ref,
-        );
-      },
-    );
+    if (reminderList.isNotEmpty) {
+      return ListView.builder(
+        itemCount: reminderList.length,
+        itemBuilder: (context, int index) {
+          return CardCustomer(
+            reminders: reminderList,
+            index: index,
+            ref: ref,
+          );
+        },
+      );
+    } else {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.assignment_turned_in_outlined,
+                size: 80, color: Colors.grey),
+            SizedBox(height: 16),
+            Text(
+              'No tienes recordatorios',
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
 
