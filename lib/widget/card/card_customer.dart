@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
+import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
 import 'package:vivebien/screens/detail/detail_reminder.dart';
+import 'package:vivebien/screens/provider/reminder.dart';
 
 class CardCustomer extends StatefulWidget {
   final List<Reminder> reminders;
   final int index;
+  final WidgetRef ref;
 
-  const CardCustomer({super.key, required this.reminders, required this.index});
+  const CardCustomer(
+      {super.key,
+      required this.reminders,
+      required this.index,
+      required this.ref});
 
   @override
   State<CardCustomer> createState() => _CardCustomerState();
@@ -35,26 +43,32 @@ class _CardCustomerState extends State<CardCustomer> {
               child: IconButton(
                 iconSize: 40,
                 onPressed: () {
+                  widget.ref
+                      .read(askReminderProvider.notifier)
+                      .completStateReminder(reminderIndex.id);
                   print(
-                    'fue precionado el boton de cheking, posicion: ${widget.index}',
+                    'fue precionado el boton de cheking, posicion: ${widget.index} y id: ${reminderIndex.id}}',
                   );
+                  setState(() {
+                    iconCheck = iconCheck ? false : true;
+                  });
                 },
-                icon: Icon(Icons.circle_outlined),
+                icon: (reminderIndex.estado == Estado.Completado)
+                    ? Icon(Icons.check_circle_outline)
+                    : Icon(Icons.circle_outlined),
               ),
             ),
             SizedBox(width: 10),
             Expanded(
               flex: 8,
               child: GestureDetector(
-                onTap:
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) =>
-                                DetailReminder(reminder: reminderIndex),
-                      ),
-                    ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DetailReminder(reminder: reminderIndex),
+                  ),
+                ),
                 child: Container(
                   color: Colors.transparent,
                   child: Column(

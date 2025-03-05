@@ -29,7 +29,11 @@ class BodyCustomer extends ConsumerWidget {
     return ListView.builder(
       itemCount: reminderList.length,
       itemBuilder: (context, int index) {
-        return CardCustomer(reminders: reminderList, index: index);
+        return CardCustomer(
+          reminders: reminderList,
+          index: index,
+          ref: ref,
+        );
       },
     );
   }

@@ -60,21 +60,30 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
 
   Future<bool> completStateReminder(int id) async {
     try {
-      final index = state.indexWhere((r) => r.id == id);
-      if (index == -1) {
-        print('Reminder con ID $id no encontrado');
-        return false;
+      Reminder reminder = await reminderById(id);
+      //opcion del cheking
+      if (reminder.estado == Estado.Completado) {
+        Reminder CompletReminder = Reminder(
+            id: reminder.id,
+            title: reminder.title,
+            description: reminder.description,
+            reminderTime: reminder.reminderTime,
+            frecuencia: reminder.frecuencia,
+            estado: Estado.Pendiente);
+
+        editReminder(CompletReminder);
+        return true;
       }
+      Reminder CompletReminder = Reminder(
+          id: reminder.id,
+          title: reminder.title,
+          description: reminder.description,
+          reminderTime: reminder.reminderTime,
+          frecuencia: reminder.frecuencia,
+          estado: Estado.Completado);
 
-      final updatedReminder = state[index];
-      updatedReminder.estado = Estado.Completado;
-
-      state = [...state]..[index] = updatedReminder;
-
-      await localDatasource.updateReminder(updatedReminder);
-      await cloudDatasource.updateReminder(updatedReminder);
-
-      print('Cambio el estado a completado: ${updatedReminder.title}');
+      editReminder(CompletReminder);
+      print('Cambio el estado a completado: ${reminder.title}');
       return true;
     } catch (e) {
       print('Error al cambiar el estado del Reminder: $e');
