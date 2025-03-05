@@ -28,6 +28,16 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
 
   Future<void> loadReminders() async {
     final reminders = await localDatasource.getReminder();
+    reminders.sort((a, b) {
+      if (a.estado == Estado.Completado && b.estado != Estado.Completado) {
+        return 1;
+      } else if (a.estado != Estado.Completado &&
+          b.estado == Estado.Completado) {
+        return -1;
+      }
+      return a.reminderTime.compareTo(b.reminderTime);
+    });
+
     Future.delayed(Duration(milliseconds: 900));
     state = reminders;
   }
