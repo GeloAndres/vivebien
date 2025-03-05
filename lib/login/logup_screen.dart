@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:vivebien/login/logup_screen.dart';
-import 'package:vivebien/screens/home/home_screen.dart';
+import 'package:vivebien/login/login_screen.dart';
 import 'package:vivebien/service/auth/auth_service.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LogupScreen extends StatelessWidget {
+  const LogupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
-
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -22,7 +21,7 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Iniciar Sesión',
+                'Crear nueva cuenta ViveBien',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -61,44 +60,38 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    print('correo: ${_emailController.text}');
-                    print('contraseña: ${_passwordController.text}');
-                    final bool validation = await AuthService().signIn(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    );
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      print('correo: ${_emailController.text}');
+                      print('contraseña: ${_passwordController.text}');
+                      await AuthService().signUp(
+                          email: _emailController.text,
+                          password: _passwordController.text);
 
-                    if (validation) {
+                      mostrarSnackBar(
+                          context, 'Usuario creado correctamente ✅');
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
                       );
                     } else {
-                      print('error inesperadicimo');
+                      print('error inesperado');
                     }
-
-                    mostrarSnackBar(context, 'Bienvenido a ViveBien');
-                  } else {
-                    print('error inesperado');
-                  }
-                },
-                child: Text('Ingresar'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LogupScreen()),
-                  );
-                },
-                child: Text('Crear una cuenta'),
-              ),
+                  },
+                  child: Text('Crear cuenta')),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+void mostrarSnackBar(BuildContext context, String mensaje) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(mensaje),
+      duration: Duration(seconds: 3),
+    ),
+  );
 }
