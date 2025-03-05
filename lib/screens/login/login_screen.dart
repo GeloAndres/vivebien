@@ -75,11 +75,12 @@ class LoginScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (context) => HomeScreen()),
                       );
+                      mostrarSnackBar(context, 'Bienvenido a ViveBien');
                     } else {
                       print('error inesperadicimo');
+                      mostrarSnackBar(
+                          context, 'Correo o contraseña incorrectos');
                     }
-
-                    mostrarSnackBar(context, 'Bienvenido a ViveBien');
                   } else {
                     print('error inesperado');
                   }

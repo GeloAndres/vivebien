@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vivebien/login/login_screen.dart';
 import 'package:vivebien/permission/premission.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:vivebien/screens/login/login_screen.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
 import 'package:vivebien/service/local_notifier/notifier_service.dart';
 import 'firebase_options.dart';
