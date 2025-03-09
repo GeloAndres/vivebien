@@ -11,7 +11,23 @@ class LogupScreen extends StatelessWidget {
     final TextEditingController _passwordController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+          child: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 35,
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
