@@ -16,7 +16,8 @@ class DetailReminder extends ConsumerStatefulWidget {
 }
 
 class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
-  late final Id _id;
+  late final Id _idIsar;
+  late final String _id;
   final _tituloController = TextEditingController();
   final _descripcionController = TextEditingController();
   late DateTime fechaSeleccionada;
@@ -29,6 +30,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
   initState() {
     super.initState();
     _id = widget.reminder.id;
+    _idIsar = widget.reminder.idIsar;
     _tituloController.text = widget.reminder.title;
     _descripcionController.text = widget.reminder.description;
     fechaSeleccionada = widget.reminder.reminderTime;
@@ -87,6 +89,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
 
   void _guardarRecordatorio() {
     final id = _id;
+    final idIsar = widget.reminder.idIsar;
     final titulo = _tituloController.text;
     final descripcion = _descripcionController.text;
     final fecha = fechaSeleccionada;
@@ -141,7 +144,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Detalle del Recordatorio'),
-        actions: [ButtomCustomerDelete(id: widget.reminder.id)],
+        actions: [ButtomCustomerDelete(id: widget.reminder.idIsar)],
       ),
       body: SingleChildScrollView(
         child: Padding(

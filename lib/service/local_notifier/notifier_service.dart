@@ -77,7 +77,7 @@ class NotifierService {
     const NotificationDetails platformChannelSpredifies =
         NotificationDetails(android: androidNotificationDetails);
 
-    await flutterLocalNotificationsPlugin.show(reminder.id, reminder.title,
+    await flutterLocalNotificationsPlugin.show(reminder.idIsar, reminder.title,
         reminder.description, platformChannelSpredifies,
         payload: reminder.id.toString());
   }

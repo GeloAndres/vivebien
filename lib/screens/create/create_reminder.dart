@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vivebien/domain/entities/reminder.dart';
 import 'package:vivebien/enum/entity_reminder/entity_reminder_enum.dart';
-import 'package:vivebien/screens/provider/localStorageProvider.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
+import 'package:uuid/uuid.dart';
+import 'package:vivebien/service/generation_password_uu/generation_password_uu.dart';
 
 class CreateReminder extends ConsumerStatefulWidget {
   const CreateReminder({super.key});
@@ -53,6 +54,7 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
   }
 
   void _guardarRecordatorio() {
+    final id = generarIdUnico();
     final titulo = _tituloController.text;
     final descripcion = _descripcionController.text;
     final fecha = fechaSeleccionada;
@@ -66,8 +68,9 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
       return;
     }
 
-    print('Recordatorio guardado:');
+    print('Recordatorio que se mando a Crear:');
     print('Título: $titulo');
+    print('Id personalizado: $id');
     print('Descripción: $descripcion');
     print('Fecha: $fechaSeleccionada');
     print('Frecuencia: $frecuencia');
@@ -79,6 +82,7 @@ class _CreateReminderScreenState extends ConsumerState<CreateReminder> {
       estado: estado,
       frecuencia: frecuencia,
       reminderTime: fecha,
+      id: id,
     );
 
     ref.read(askReminderProvider.notifier).createReminder(newReminder);

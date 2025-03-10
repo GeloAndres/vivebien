@@ -5,7 +5,8 @@ part 'reminder.g.dart';
 
 @collection
 class Reminder {
-  Id id = Isar.autoIncrement;
+  Id idIsar = Isar.autoIncrement;
+  final String id;
   final String title;
   final String description;
   final DateTime reminderTime;
@@ -21,12 +22,14 @@ class Reminder {
     required this.reminderTime,
     required this.frecuencia,
     required this.estado,
-    this.id = Isar.autoIncrement,
+    required this.id,
+    this.idIsar = Isar.autoIncrement,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'idIsar': idIsar,
       'title': title,
       'description': description,
       'reminderTime': reminderTime.toIso8601String(),

@@ -50,4 +50,9 @@ class AuthService {
       return false;
     }
   }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    print('Sesión cerrada correctamente');
+  }
 }

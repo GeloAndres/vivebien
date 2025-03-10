@@ -45,7 +45,7 @@ class _CardCustomerState extends State<CardCustomer> {
                 onPressed: () {
                   widget.ref
                       .read(askReminderProvider.notifier)
-                      .completStateReminder(reminderIndex.id);
+                      .completStateReminder(reminderIndex.idIsar);
                   print(
                     'fue precionado el boton de cheking, posicion: ${widget.index} y id: ${reminderIndex.id}}',
                   );

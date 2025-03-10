@@ -53,6 +53,10 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
     if (create) {
       //sincronizar
       await cloudDatasource.createReminder(newReminder);
+      print('Recordatorio que esta sincroniza');
+      print('Recordatorio     : ${newReminder.title}');
+      print('Id personalizado : ${newReminder.id}');
+      print('Id isar          : ${newReminder.idIsar}');
     }
   }
 
