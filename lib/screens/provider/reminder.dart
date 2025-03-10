@@ -60,11 +60,13 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
     }
   }
 
-  Future<void> deleteReminder(int id) async {
-    final bool delete = await localDatasource.deleteReminder(id);
+  Future<void> deleteReminder(int idIsar, String id) async {
+    final bool delete = await localDatasource.deleteReminder(idIsar);
     if (delete) {
       //sincronizar
-      await cloudDatasource.deleteReminder(id.toString());
+      await cloudDatasource.deleteReminder(id);
+    } else {
+      print('No se puedo borrar.');
     }
   }
 
