@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vivebien/screens/create/create_reminder.dart';
+import 'package:vivebien/screens/login/login_screen.dart';
 import 'package:vivebien/screens/provider/reminder.dart';
+import 'package:vivebien/service/auth/auth_service.dart';
 import 'package:vivebien/widget/card/card_customer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,7 +12,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Vivebien')),
+      appBar: AppBar(title: Text('Vivebien'), actions: [
+        _ButtomCloseSession(context: context),
+        SizedBox(
+          width: 16,
+        )
+      ]),
       body: BodyCustomer(),
       floatingActionButton: CustomerFloatingButtom(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -70,5 +77,24 @@ class CustomerFloatingButtom extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _ButtomCloseSession extends StatelessWidget {
+  final BuildContext context;
+
+  const _ButtomCloseSession({super.key, required this.context});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        onPressed: () {
+          AuthService().signOut();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+        },
+        child: Text('Cerrar sesion'));
   }
 }
