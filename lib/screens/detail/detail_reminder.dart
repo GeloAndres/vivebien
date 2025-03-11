@@ -103,8 +103,9 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
       return;
     }
 
-    print('Recordatorio guardado:');
+    print('Recordatorio Actualizado:');
     print('ID : $id');
+    print('Isar Id: $idIsar');
     print('Título: $titulo');
     print('Descripción: $descripcion');
     print('Fecha: $fechaSeleccionada');
@@ -112,6 +113,7 @@ class _DetailReminderScreenState extends ConsumerState<DetailReminder> {
     print('Estado: $estado');
 
     final Reminder newReminder = Reminder(
+      idIsar: idIsar,
       id: id,
       title: titulo,
       description: descripcion,

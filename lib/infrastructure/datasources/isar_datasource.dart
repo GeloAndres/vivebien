@@ -6,15 +6,9 @@ import 'package:vivebien/service/local_notifier/notifier_service.dart';
 
 class IsarDatasource extends LocalStorageDatasource {
   late Future<Isar> db;
-  late Isar dbNot;
 
   IsarDatasource() {
     db = openDB();
-    openDbNot();
-  }
-
-  Future<void> openDbNot() async {
-    dbNot = await openDB();
   }
 
   Future<Isar> openDB() async {
