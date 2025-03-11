@@ -3,8 +3,28 @@ import 'package:vivebien/screens/login/logup_screen.dart';
 import 'package:vivebien/screens/home/home_screen.dart';
 import 'package:vivebien/service/auth/auth_service.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
+
+  Future<void> _checkAuth() async {
+    final bool validator = await AuthService().checkAuthService();
+
+    if (validator) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

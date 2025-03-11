@@ -51,6 +51,15 @@ class AuthService {
     }
   }
 
+  Future<bool> checkAuthService() async {
+    final user = await FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      return true;
+    }
+    return false;
+  }
+
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
     print('Sesión cerrada correctamente');
