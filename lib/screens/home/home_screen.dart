@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Vivebien'), actions: [
-        _ButtomCloseSession(context: context),
+        _ButtomLogOut(context: context),
         SizedBox(
           width: 16,
         )
@@ -80,10 +80,10 @@ class CustomerFloatingButtom extends StatelessWidget {
   }
 }
 
-class _ButtomCloseSession extends StatelessWidget {
+class _ButtomLogOut extends StatelessWidget {
   final BuildContext context;
 
-  const _ButtomCloseSession({super.key, required this.context});
+  const _ButtomLogOut({required this.context});
 
   @override
   Widget build(BuildContext context) {
